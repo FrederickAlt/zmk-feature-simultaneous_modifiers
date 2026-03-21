@@ -1,4 +1,4 @@
-# zmk-feature-layer-defer
+# zmk-feature-simultaneous_modifiers
 
 A ZMK module that gives layer-switching and modifier keys time to activate before a regular key's binding is resolved. This eliminates missed or wrong-layer keystrokes when typing quickly with hold-tap or momentary layer (`&mo`) keys.
 
