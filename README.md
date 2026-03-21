@@ -47,7 +47,7 @@ manifest:
     - name: frederickalt
       url-base: https://github.com/FrederickAlt
   projects:
-    - name: zmk-layer-defer
+    - name: zmk-simultaneous_modifiers
       remote: frederickalt
       revision: main
   self:
