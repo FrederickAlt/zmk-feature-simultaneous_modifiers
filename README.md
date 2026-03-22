@@ -4,7 +4,7 @@ A ZMK module that gives layer-switching and modifier keys time to activate befor
 
 ## The Problem
 
-When you press a regular key and a modifier key (such as an `&mo` layer key or a `&mt` mod-tap) in rapid succession, ZMK resolves the regular key's binding the moment it arrives — before the modifier has had a chance to register. The result is that the key fires on the wrong layer, or without the intended modifier.
+When you press a regular key and a modifier key (such as shift, an `&mo` layer key or a `&mt` mod-tap) simultaneously, ZMK resolves the regular key's binding the moment it arrives — sometimes before the modifier has had a chance to register. The result is that the key fires on the wrong layer, or without the intended modifier.
 
 ## How It Works
 
