@@ -47,7 +47,7 @@ manifest:
     - name: frederickalt
       url-base: https://github.com/FrederickAlt
   projects:
-    - name: zmk-simultaneous_modifiers
+    - name: zmk-feature-simultaneous_modifiers
       remote: frederickalt
       revision: main
   self:
@@ -61,6 +61,8 @@ CONFIG_ZMK_KEY_LAYER_DEFER=y
 CONFIG_ZMK_KEY_LAYER_DEFER_MS=50
 CONFIG_ZMK_KEY_LAYER_DEFER_MOD_POSITIONS="30 31 32 33"
 ```
+
+Note that the above configuration is only necessary in the central/dongle in case of splits or dongle setups.
 
 ## Configuration
 
@@ -79,7 +81,7 @@ Consider a 36-key board where the right shift is at position 35 and is bound to 
 `config/<keyboard>.conf`:
 ```
 CONFIG_ZMK_KEY_LAYER_DEFER=y
-CONFIG_ZMK_KEY_LAYER_DEFER_MS=50
+CONFIG_ZMK_KEY_LAYER_DEFER_MS=30
 CONFIG_ZMK_KEY_LAYER_DEFER_MOD_POSITIONS="35"
 ```
 
