@@ -1,6 +1,6 @@
 config ZMK_KEY_LAYER_DEFER
     bool "Defer regular key dispatch for layer detection"
-    default y
+    default n
     help
       Captures every position-press that is not a configured modifier key
       and delays forwarding it for up to ZMK_KEY_LAYER_DEFER_MS.  This
