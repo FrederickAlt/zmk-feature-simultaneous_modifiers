@@ -1,5 +1,1 @@
-if(CONFIG_ZMK_KEY_LAYER_DEFER)
-    zephyr_library()
-    zephyr_library_sources(src/key_layer_defer.c)
-    zephyr_library_include_directories(${ZEPHYR_ZMK_MODULE_DIR}/app/include)
-endif()
+target_sources_ifdef(CONFIG_ZMK_KEY_LAYER_DEFER app PRIVATE src/key_layer_defer.c)
