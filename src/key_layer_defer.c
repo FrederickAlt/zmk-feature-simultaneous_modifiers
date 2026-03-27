@@ -127,6 +127,8 @@ struct held_key {
 };
 
 static struct held_key held;
+//ensure that holding a key is an atomic operation
+static struct k_spinlock key_buffer_lock; 
 
 /* =========================================================================
  * Forward declaration
@@ -152,16 +154,18 @@ static void key_layer_defer_init(void) {
  * Core: fire the held press and clear the buffer
  * ========================================================================= */
 
+
 static void fire_and_clear(void) {
-  if (!held.active) {
-    return;
-  }
-  k_work_cancel_delayable(&held.timer);
-  LOG_DBG("key_layer_defer: firing press pos=%u uptime=%lldms", held.position,
-          k_uptime_get());
-  ZMK_EVENT_RELEASE(held.ev);
-  held.active = false;
-  LOG_DBG("key_layer_defer: buffer cleared");
+    k_spinlock_key_t key = k_spin_lock(&key_buffer_lock);
+    if (!held.active) {
+        k_spin_unlock(&key_buffer_lock, key);
+        return;
+    }
+    k_work_cancel_delayable(&held.timer);
+    ZMK_EVENT_RELEASE(held.ev);
+    held.active = false;
+    k_spin_unlock(&key_buffer_lock, key);
+    LOG_DBG("key_layer_defer: buffer cleared at %lldms", k_uptime_get());
 }
 
 /* =========================================================================
@@ -236,9 +240,11 @@ static int on_press(const zmk_event_t *ev,
     fire_and_clear();
   }
 
+  k_spinlock_key_t key = k_spin_lock(&key_buffer_lock);
   held.active = true;
   held.position = data->position;
   held.ev = copy_raised_zmk_position_state_changed(data);
+  k_spin_unlock(&key_buffer_lock, key);
 
   if (remaining <= 0) {
     LOG_DBG("key_layer_defer: pos=%u already aged %lldms >= %dms, "
