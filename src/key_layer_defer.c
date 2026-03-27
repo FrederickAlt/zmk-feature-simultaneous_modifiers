@@ -161,7 +161,7 @@ static void fire_and_clear(void) {
         k_spin_unlock(&key_buffer_lock, key);
         return;
     }
-    struct zmk_position_state_changed_event ev_to_release = held.ev;r
+    struct zmk_position_state_changed_event ev_to_release = held.ev;
     held.active = false;
     k_work_cancel_delayable(&held.timer);
     k_spin_unlock(&key_buffer_lock, key);
