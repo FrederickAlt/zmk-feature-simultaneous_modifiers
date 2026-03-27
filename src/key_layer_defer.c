@@ -161,10 +161,12 @@ static void fire_and_clear(void) {
         k_spin_unlock(&key_buffer_lock, key);
         return;
     }
-    k_work_cancel_delayable(&held.timer);
-    ZMK_EVENT_RELEASE(held.ev);
+    struct zmk_position_state_changed_event ev_to_release = held.ev;r
     held.active = false;
+    k_work_cancel_delayable(&held.timer);
     k_spin_unlock(&key_buffer_lock, key);
+    ZMK_EVENT_RELEASE(ev_to_release);
+    
     LOG_DBG("key_layer_defer: buffer cleared at %lldms", k_uptime_get());
 }
 
