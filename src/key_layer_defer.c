@@ -50,7 +50,6 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/sys/util.h>
-
 #include <zmk/event_manager.h>
 #include <zmk/events/position_state_changed.h>
 
@@ -156,15 +155,12 @@ static void key_layer_defer_init(void) {
 
 
 static void fire_and_clear(void) {
-    k_spinlock_key_t key = k_spin_lock(&key_buffer_lock);
     if (!held.active) {
-        k_spin_unlock(&key_buffer_lock, key);
         return;
     }
     struct zmk_position_state_changed_event ev_to_release = held.ev;
     held.active = false;
     k_work_cancel_delayable(&held.timer);
-    k_spin_unlock(&key_buffer_lock, key);
     ZMK_EVENT_RELEASE(ev_to_release);
     
     LOG_DBG("key_layer_defer: buffer cleared at %lldms", k_uptime_get());
